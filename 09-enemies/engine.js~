@@ -32,7 +32,7 @@ var Game = new function() {
     };
 
     // Gestión de la entrada (teclas para izda/derecha y disparo)
-    var KEY_CODES = { 37:'left', 39:'right', 32 :'fire' };
+    var KEY_CODES = { 37:'left', 39:'right', 32 :'fire', 66 : 'izq', 68 : 'der' };
     this.keys = {};
 
     this.setupInput = function() {
@@ -260,6 +260,7 @@ var GameBoard = function() {
 	});
     };
 
+   
 
 };
 
