@@ -260,7 +260,6 @@ var GameBoard = function() {
 	});
     };
 
-   
 
 };
 

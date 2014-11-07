@@ -36,6 +36,24 @@ describe("Clase EnemySpec", function(){
     }); 
 
 
+	it("iterate", function(){
+		
+	var tablero=new GameBoard();
+	spyOn(tablero, "iterate").andCallThrough();
+	
+	var objeto ={foo : function(){tablero.add(this)}};
+	tablero.add(objeto);
+	
+	
+	tablero.iterate("foo");
+
+	expect(tablero.iterate).toHaveBeenCalled();
+	expect(tablero.objects.length).toEqual(2);
+
+	
+
+    });
+
     it("Enemy", function(){
 
 	var enemigo =new Enemy(enemies.basic);
@@ -48,7 +66,7 @@ describe("Clase EnemySpec", function(){
 	expect(enemigo.vy).toBe(100);
 	expect(enemigo.x).toBe(100 + enemigo.vx*dt);
 	expect(enemigo.y).toBe(-50 + enemigo.vy*dt);
-	//Como no se cumplen las condiciones no entra a eliminarse
+
 
     });
 

@@ -76,7 +76,21 @@ describe("Clase PlayerMissile", function(){
 
     });
 
+	it("Pcvxcv", function(){
 	
+	var misil=new PlayerShip();
+
+	Game = {keys: {'fire': true}};
+ 	misil.step(1); 
+	expect(misil.reload).toBe(-0.75);
+
+	Game = {keys: {'fire': false}};
+ 	misil.step(1); 
+	expect(misil.reload).toBe(-1.75);
+	//No entra al último if si no ha habido un true antes por lo que no se crean misiles, esto hace que el reload no sea 0.25. La próxima ve que se entrase con true si entraría y se crearían
+	
+
+    });
 
 	
 
