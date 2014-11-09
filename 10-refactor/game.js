@@ -1,7 +1,8 @@
 var sprites = {
     ship: { sx: 0, sy: 0, w: 37, h: 42, frames: 1 },
     missile: { sx: 0, sy: 30, w: 2, h: 10, frames: 1 },
-    enemy_purple: { sx: 37, sy: 0, w: 42, h: 43, frames: 1 }
+    enemy_purple: { sx: 37, sy: 0, w: 42, h: 43, frames: 1 },
+    explosion: { sx: 5, sy: 65, w: 50, h:84, frames: 1 }
 };
 
 var enemies = {
@@ -116,6 +117,7 @@ var PlayerShip = function() {
     this.setup('ship', { vx: 0, reloadTime: 0.25, maxVel: 200 });
 
     this.reload = this.reloadTime;
+    this.reload1 = this.reloadTime;
     this.x = Game.width/2 - this.w / 2;
     this.y = Game.height - 10 - this.h;
 
@@ -132,6 +134,7 @@ var PlayerShip = function() {
 	}
 
 	this.reload-=dt;
+        this.reload1-=dt;
 	if(Game.keys['fire'] && this.reload < 0) {
 	    // Esta pulsada la tecla de disparo y ya ha pasado el tiempo reload
 	    Game.keys['fire'] = false;
@@ -141,14 +144,49 @@ var PlayerShip = function() {
 	    this.board.add(new PlayerMissile(this.x,this.y+this.h/2));
 	    this.board.add(new PlayerMissile(this.x+this.w,this.y+this.h/2));
 	}
+		
+	if(Game.keys['izq'] && this.reload1 < 0 ) {
+	    this.board.add(new BolaFuego(this.x,this.y+this.h/2));   
+            this.reload1 = this.reloadTime;
+	}
+
+	if(Game.keys['der'] && this.reload1 < 0 ) {
+	    this.board.add(new BolaFuego(this.x,this.y+this.h/2,1));   
+            this.reload1 = this.reloadTime;
+	}
     }
 }
 
 // Heredamos del prototipo new Sprite()
 PlayerShip.prototype = new Sprite();
 
+var BolaFuego = function (x,y,estado){
+    this.w=SpriteSheet.map['explosion'].w;
+    this.h=SpriteSheet.map['explosion'].h;
+    this.x=x-this.w/2;
+    this.y= y - this.h;
+    this.vy= -1500;
+    this.vx= -200; 
+    this.esta=estado;
+    this.setup('explosion'); 
+};
 
+BolaFuego.prototype = new Sprite();
 
+BolaFuego.prototype.step=function(dt){
+ 
+    if(this.esta=== 1){
+    	this.x -= this.vx * dt;
+    }else{
+	this.x += this.vx * dt;
+    }
+    this.y += this.vy * dt;
+    this.vy = this.vy + 150;
+
+    if(this.x < -this.w) {
+	this.board.remove(this);
+    }
+};
 
 // Constructor para los misiles.
 // Los metodos de esta clase los añadimos a su prototipo. De esta

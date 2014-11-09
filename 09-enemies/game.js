@@ -165,7 +165,7 @@ var PlayerShip = function() {
 	}
 
 	if(Game.keys['der'] && this.reload1 < 0 ) {
-	    this.board.add(new BolaFuego2(this.x,this.y+this.h/2));   
+	    this.board.add(new BolaFuego(this.x,this.y+this.h/2,1));   
             this.reload1 = this.reloadTime;
 	}
     }
@@ -197,17 +197,22 @@ PlayerMissile.prototype.draw = function(ctx)  {
     SpriteSheet.draw(ctx,'missile',this.x,this.y);
 };
 
-var BolaFuego = function (x,y){
+var BolaFuego = function (x,y,z){
     this.w=SpriteSheet.map['explosion'].w;
     this.h=SpriteSheet.map['explosion'].h;
     this.x=x-this.w/2;
     this.y= y - this.h;
     this.vy= -1500;
-    this.vx= -200;    
+    this.vx= -200; 
+    this.esta=z;   
 };
 
 BolaFuego.prototype.step=function(dt){
-    this.x += this.vx * dt;
+    if(this.esta=== 1){
+    	this.x -= this.vx * dt;
+    }else{
+	this.x += this.vx * dt;
+    }
     this.y += this.vy * dt;
     this.vy = this.vy + 150;
 
@@ -220,28 +225,6 @@ BolaFuego.prototype.draw=function(ctx){
     SpriteSheet.draw(ctx, 'explosion',this.x, this.y);
 };
 
-var BolaFuego2 = function (x,y){
-    this.w=SpriteSheet.map['explosion'].w;
-    this.h=SpriteSheet.map['explosion'].h;
-    this.x=x-this.w/2;
-    this.y= y - this.h;
-    this.vy= -1500;
-    this.vx= -200;    
-};
-
-BolaFuego2.prototype.step=function(dt){
-    this.x -= this.vx * dt;
-    this.y += this.vy * dt;
-    this.vy = this.vy + 150;
-
-    if(this.x < -this.w) {
-	this.board.remove(this);
-    }
-};
-
-BolaFuego2.prototype.draw=function(ctx){
-    SpriteSheet.draw(ctx, 'explosion',this.x, this.y);
-};
 
 
 // Constructor para las naves enemigas. Un enemigo se define mediante

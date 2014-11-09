@@ -197,7 +197,7 @@ PlayerMissile.prototype.draw = function(ctx)  {
     SpriteSheet.draw(ctx,'missile',this.x,this.y);
 };
 
-var BolaFuego = function (x,y,derecha){
+var BolaFuego = function (x,y){
     this.w=SpriteSheet.map['explosion'].w;
     this.h=SpriteSheet.map['explosion'].h;
     this.x=x-this.w/2;
