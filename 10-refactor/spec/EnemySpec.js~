@@ -44,7 +44,7 @@ describe("Clase EnemySpec", function(){
 	var dt=1;
 	enemigo.step(dt);
 
-	expect(enemigo.vx).toBe(100 * Math.sin(4*dt));
+	expect(enemigo.vx).toBe(100 * Math.sin(2*dt));
 	expect(enemigo.vy).toBe(100);
 	expect(enemigo.x).toBe(100 + enemigo.vx*dt);
 	expect(enemigo.y).toBe(-50 + enemigo.vy*dt);

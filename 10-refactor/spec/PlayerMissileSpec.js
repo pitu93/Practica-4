@@ -27,3 +27,40 @@
     la clase en el prototipo
 
 */
+
+describe("Clase PlayerMissile", function(){
+
+    var canvas, ctx;
+
+    beforeEach(function(){
+	loadFixtures('index.html');
+
+	canvas = $('#game')[0];
+	expect(canvas).toExist();
+
+	ctx = canvas.getContext('2d');
+	expect(ctx).toBeDefined();
+
+	oldGame = Game;
+	Game = {width: 320, height: 480};
+
+    });
+
+    afterEach(function(){
+	Game = oldGame;
+    }); 
+
+    it("Coordenadas Missile", function(){
+	
+	var misil=new PlayerMissile(1,2);
+	spyOn(misil, "draw").andCallThrough();
+
+	expect(misil.y).toBe(2+misil.h);
+	expect(misil.x).toBe(1+misil.w/2);
+
+    });
+
+
+
+    
+});

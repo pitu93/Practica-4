@@ -56,3 +56,124 @@
     colisionado con objetos de cierto tipo, no con todos los objetos.
 
 */
+describe("Clase GameBoard", function(){
+
+    var canvas, ctx;
+
+    beforeEach(function(){
+	loadFixtures('index.html');
+
+	canvas = $('#game')[0];
+	expect(canvas).toExist();
+
+	ctx = canvas.getContext('2d');
+	expect(ctx).toBeDefined();
+
+	oldGame = Game;
+	Game = {width: 320, height: 480};
+
+    });
+
+    afterEach(function(){
+	Game = oldGame;
+    }); 
+
+    it("add", function(){
+	
+	var tablero=new GameBoard();
+	spyOn(tablero, "add").andCallThrough();
+	var objeto={};
+
+	expect(tablero.objects.length).toEqual(0);
+	tablero.add(objeto);
+
+	expect(tablero.add).toHaveBeenCalled();
+	expect(tablero.objects.length).toEqual(1);
+
+    });
+
+    it("remove", function(){
+
+	var tablero=new GameBoard();
+	spyOn(tablero, "remove").andCallThrough();
+	var objeto={};
+	
+	tablero.add(objeto);
+	expect(tablero.objects.length).toEqual(1);
+
+	tablero.resetRemoved();
+	tablero.remove(objeto);
+	tablero.finalizeRemoved();
+
+	expect(tablero.remove).toHaveBeenCalled();
+	expect(tablero.objects.length).toEqual(0);
+    });
+
+    it("iterate", function(){
+		
+	var tablero=new GameBoard();
+	spyOn(tablero, "iterate").andCallThrough();
+	
+	var objeto ={foo : function(){tablero.add(this)}};
+	tablero.add(objeto);
+	
+	
+	tablero.iterate("foo");
+
+	expect(tablero.iterate).toHaveBeenCalled();
+	expect(tablero.objects.length).toEqual(2);
+
+    });
+
+    it("detect", function(){
+		
+	var tablero=new GameBoard();
+	spyOn(tablero, "detect").andCallThrough();
+
+	var objeto={};
+	tablero.add(objeto);
+	
+	function verdad(object){return true};
+	tablero.detect(verdad);
+
+
+	expect(tablero.detect(verdad)).toBe(objeto);
+
+    });
+
+    it("draw", function(){
+		
+	var tablero=new GameBoard();
+	spyOn(tablero, "draw").andCallThrough();
+	var objeto={};
+	tablero.draw(objeto);
+
+	expect(tablero.draw).toHaveBeenCalledWith({});
+
+    });
+
+    it("overlap", function(){
+		
+	var tablero=new GameBoard();
+	spyOn(tablero, "overlap").andCallThrough();
+	var o1={x:0,w:3,y:1,h:3};
+	var o2={x:2,w:4,y:1,h:4};
+
+	expect(tablero.overlap(o1,o2)).toBeTruthy();
+
+    });
+
+    it("collide", function(){
+		
+	var tablero=new GameBoard();
+	spyOn(tablero, "collide").andCallThrough();
+	var o1={x:0,w:3,y:1,h:3};
+	var o2={x:2,w:4,y:1,h:4};
+
+	tablero.add(o1);
+
+	expect(tablero.collide(o2)).toBe(o1);
+
+    });
+});
+
