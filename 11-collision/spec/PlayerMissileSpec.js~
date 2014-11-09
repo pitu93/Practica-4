@@ -55,8 +55,8 @@ describe("Clase PlayerMissile", function(){
 	var misil=new PlayerMissile(1,2);
 	spyOn(misil, "draw").andCallThrough();
 
-	expect(misil.y).toBe(2-misil.h);
-	expect(misil.x).toBe(1-misil.w/2);
+	expect(misil.y).toBe(2+misil.h);
+	expect(misil.x).toBe(1+misil.w/2);
 
     });
 

@@ -42,7 +42,6 @@ describe("Clase EnemySpec", function(){
 	spyOn(enemigo, "step").andCallThrough();
 	
 	var dt=1;
-	enemigo.board = new GameBoard();
 	enemigo.step(dt);
 
 	expect(enemigo.vx).toBe(100 * Math.sin(4*dt));
